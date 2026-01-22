@@ -85,7 +85,7 @@ const HrPayrollOverview = lazy(() => import("@/pages/HrAndPayroll/HrPayrollOverv
 const PayrollRuns = lazy(() => import("@/pages/HrAndPayroll/PayrollRuns"));
 const Payslips = lazy(() => import("@/pages/HrAndPayroll/Payslips"));
 const PayrollReports = lazy(() => import("@/pages/HrAndPayroll/PayrollReports"));
-const Accounting = lazy(() => import("@/pages/accounting/Accounting"));
+//const Accounting = lazy(() => import("@/pages/accounting/Accounting"));
 const ChartOfAccounts = lazy(() => import("@/pages/accounting/ChartOfAccounts"));
 const Transactions = lazy(() => import("@/pages/accounting/Transactions"));
 const Income = lazy(() => import("@/pages/accounting/Income"));
@@ -634,16 +634,16 @@ export const sidebarItemLink = [
       SuperAdminPermission.ACCESS_ALL,
     ],
     items: [
-      {
-        title: "Overview",
-        url: "/dashboard/accounting",
-        element: <Accounting />,
-        icon: LayoutDashboard,
-        allowedPermissions: [
-          AccountingPermission.VIEW,
-          SuperAdminPermission.ACCESS_ALL,
-        ],
-      },
+      // {
+      //   title: "Overview",
+      //   url: "/dashboard/accounting",
+      //   element: <Accounting />,
+      //   icon: LayoutDashboard,
+      //   allowedPermissions: [
+      //     AccountingPermission.VIEW,
+      //     SuperAdminPermission.ACCESS_ALL,
+      //   ],
+      // },
       {
         title: "Chart of Accounts",
         url: "/dashboard/accounting/chart-of-accounts",
