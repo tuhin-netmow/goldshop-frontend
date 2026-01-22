@@ -21,28 +21,7 @@ import { useGetAccountingChartDataQuery, useGetAccountingOverviewQuery } from "@
 import type { Overview } from "@/types/accounting.types";
 import { format } from "date-fns";
 
-// Helper to generate random numbers for dummy data
-const randomAmount = (min: number, max: number) =>
-  Math.floor(Math.random() * (max - min + 1) + min);
-
-// Generate dummy trend data for the last 30 days
-const generateTrendData = () => {
-  const data = [];
-  for (let i = 29; i >= 0; i--) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    data.push({
-      date: date.toISOString().split("T")[0],
-      income: randomAmount(2000, 5000),
-      expense: randomAmount(500, 2000),
-    });
-  }
-  return data;
-};
-
-const trendData = generateTrendData();
-
-// Dummy Expense Breakdown Data
+// Dummy Expense Breakdown Data (static, no Date objects)
 const expenseBreakdownData = [
   { name: 'Rent', value: 2000 },
   { name: 'Salaries', value: 8000 },
@@ -51,14 +30,14 @@ const expenseBreakdownData = [
 ];
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-// Dummy Recent Activity
-const recentActivity = [
-  { id: 1, date: new Date(), description: "Consulting Fee Received", amount: 1500, type: "income" },
-  { id: 2, date: new Date(), description: "Office Rent Payment", amount: 2000, type: "expense" },
-  { id: 3, date: new Date(Date.now() - 86400000), description: "Client Payment", amount: 3500, type: "income" },
-  { id: 4, date: new Date(Date.now() - 86400000 * 2), description: "Stationery Purchase", amount: 200, type: "expense" },
-  { id: 5, date: new Date(Date.now() - 86400000 * 3), description: "Utility Bill", amount: 450, type: "expense" },
-];
+// Type for Recent Activity
+type RecentActivityItem = {
+  id: number;
+  date: Date;
+  description: string;
+  amount: number;
+  type: "income" | "expense";
+};
 
 
 export default function AccountingOverview() {
@@ -74,7 +53,35 @@ export default function AccountingOverview() {
 
   console.log("chartData", chartData);
 
-  const chartTrendData = chartData?.data || trendData;
+  // Helper to generate random numbers for dummy data
+  const randomAmount = (min: number, max: number) =>
+    Math.floor(Math.random() * (max - min + 1) + min);
+
+  // Generate dummy trend data for the last 30 days
+  const generateTrendData = () => {
+    const data = [];
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      data.push({
+        date: date.toISOString().split("T")[0],
+        income: randomAmount(2000, 5000),
+        expense: randomAmount(500, 2000),
+      });
+    }
+    return data;
+  };
+
+  // Dummy Recent Activity
+  const recentActivity: RecentActivityItem[] = [
+    { id: 1, date: new Date(), description: "Consulting Fee Received", amount: 1500, type: "income" },
+    { id: 2, date: new Date(), description: "Office Rent Payment", amount: 2000, type: "expense" },
+    { id: 3, date: new Date(Date.now() - 86400000), description: "Client Payment", amount: 3500, type: "income" },
+    { id: 4, date: new Date(Date.now() - 86400000 * 2), description: "Stationery Purchase", amount: 200, type: "expense" },
+    { id: 5, date: new Date(Date.now() - 86400000 * 3), description: "Utility Bill", amount: 450, type: "expense" },
+  ];
+
+  const chartTrendData = chartData?.data || generateTrendData();
 
   return (
     <div className="space-y-6">
