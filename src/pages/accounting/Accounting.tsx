@@ -30,8 +30,8 @@ const expenseBreakdownData = [
 ];
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-// Type for Recent Activity
-type RecentActivityItem = {
+// Type for Recent Transaction
+type RecentTransactionItem = {
   id: number;
   date: Date;
   description: string;
@@ -51,7 +51,7 @@ export default function AccountingOverview() {
 
   const { data: chartData } = useGetAccountingChartDataQuery();
 
-  console.log("chartData", chartData);
+
 
   // Helper to generate random numbers for dummy data
   const randomAmount = (min: number, max: number) =>
@@ -72,8 +72,8 @@ export default function AccountingOverview() {
     return data;
   };
 
-  // Dummy Recent Activity
-  const recentActivity: RecentActivityItem[] = [
+  // Dummy Recent Transactions
+  const recentTransactions: RecentTransactionItem[] = [
     { id: 1, date: new Date(), description: "Consulting Fee Received", amount: 1500, type: "income" },
     { id: 2, date: new Date(), description: "Office Rent Payment", amount: 2000, type: "expense" },
     { id: 3, date: new Date(Date.now() - 86400000), description: "Client Payment", amount: 3500, type: "income" },
@@ -281,19 +281,19 @@ export default function AccountingOverview() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {recentActivity.map((activity) => (
-              <div key={activity.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
+            {recentTransactions.map((transaction) => (
+              <div key={transaction.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
                 <div className="flex items-center gap-4">
-                  <div className={`p-2 rounded-full ${activity.type === 'income' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
-                    {activity.type === 'income' ? <ArrowUpRight className="h-5 w-5" /> : <ArrowDownLeft className="h-5 w-5" />}
+                  <div className={`p-2 rounded-full ${transaction.type === 'income' ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
+                    {transaction.type === 'income' ? <ArrowUpRight className="h-5 w-5" /> : <ArrowDownLeft className="h-5 w-5" />}
                   </div>
                   <div>
-                    <p className="font-medium">{activity.description}</p>
-                    <p className="text-sm text-muted-foreground">{format(activity.date, "PPP")}</p>
+                    <p className="font-medium">{transaction.description}</p>
+                    <p className="text-sm text-muted-foreground">{format(transaction.date, "PPP")}</p>
                   </div>
                 </div>
-                <div className={`font-semibold ${activity.type === 'income' ? 'text-emerald-600' : 'text-red-600'}`}>
-                  {activity.type === 'income' ? '+' : '-'} {currency} {activity.amount.toLocaleString()}
+                <div className={`font-semibold ${transaction.type === 'income' ? 'text-emerald-600' : 'text-red-600'}`}>
+                  {transaction.type === 'income' ? '+' : '-'} {currency} {transaction.amount.toLocaleString()}
                 </div>
               </div>
             ))}
